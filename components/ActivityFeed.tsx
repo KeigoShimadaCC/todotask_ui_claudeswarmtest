@@ -59,7 +59,7 @@ export default function ActivityFeed({ activities }: ActivityFeedProps) {
                   {getTimeAgo(activity.timestamp)}
                 </span>
               </div>
-              <div className="text-sm text-textPrimary mb-1">"{activity.todo.text}"</div>
+              <div className="text-sm text-textPrimary mb-1">&ldquo;{activity.todo.text}&rdquo;</div>
               <div className="text-xs text-textSecondary">by {activity.todo.author}</div>
             </div>
           </div>
