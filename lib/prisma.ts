@@ -5,16 +5,18 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-// Prisma 7 requires adapter configuration for SQLite
-const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL?.replace('file:', '') || './prisma/dev.db',
-});
+function createPrismaClient() {
+  // Prisma 7 requires adapter configuration for SQLite
+  const adapter = new PrismaBetterSqlite3({
+    url: process.env.DATABASE_URL?.replace('file:', '') || './prisma/dev.db',
+  });
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
+  return new PrismaClient({
     adapter,
     log: ['warn', 'error'],
   });
+}
+
+export const prisma = globalForPrisma.prisma ?? createPrismaClient();
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
