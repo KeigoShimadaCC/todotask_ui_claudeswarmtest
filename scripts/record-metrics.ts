@@ -15,9 +15,18 @@
  *   *\/15 * * * * cd /path/to/app && npm run record-metrics
  */
 
+import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 
-const prisma = new PrismaClient();
+// Initialize Prisma Client with SQLite adapter
+const adapter = new PrismaBetterSqlite3({
+  url: process.env.DATABASE_URL?.replace('file:', '') || './dev.db',
+});
+
+const prisma = new PrismaClient({
+  adapter,
+});
 
 async function recordMetrics() {
   console.log('📊 Recording agent metrics snapshot...');

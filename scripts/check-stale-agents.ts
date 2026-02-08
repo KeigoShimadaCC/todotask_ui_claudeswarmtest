@@ -12,9 +12,18 @@
  *   npm run check-stale-agents
  */
 
+import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 
-const prisma = new PrismaClient();
+// Initialize Prisma Client with SQLite adapter
+const adapter = new PrismaBetterSqlite3({
+  url: process.env.DATABASE_URL?.replace('file:', '') || './dev.db',
+});
+
+const prisma = new PrismaClient({
+  adapter,
+});
 
 // Configurable timeout in milliseconds (default: 2 minutes)
 const STALE_TIMEOUT_MS = parseInt(process.env.AGENT_STALE_TIMEOUT || '120000', 10);
