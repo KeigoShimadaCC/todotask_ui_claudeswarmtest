@@ -1,12 +1,15 @@
 'use client';
 
 import { useAgents } from '@/hooks/useAgents';
+import { useAgentTrends } from '@/hooks/useAgentTrends';
 import MetricCard from '@/components/MetricCard';
 import { AgentList } from '@/components/AgentList';
 import { ActivityFeed } from '@/components/ActivityFeedAgent';
+import AgentTrendChart from '@/components/AgentTrendChart';
 
 export default function DashboardPage() {
   const { data, isLoading, error } = useAgents(5000); // Poll every 5s
+  const { data: trendsData, isLoading: trendsLoading } = useAgentTrends(24); // Last 24 hours
   
   if (isLoading) {
     return (
@@ -25,6 +28,7 @@ export default function DashboardPage() {
   }
   
   const { agents = [], stats } = data || {};
+  const { metrics = [] } = trendsData || {};
   
   return (
     <main className="container mx-auto px-6 py-8">
@@ -65,6 +69,17 @@ export default function DashboardPage() {
           changeLabel="finished"
           valueColor="text-green-600"
         />
+      </div>
+      
+      {/* Trend Chart */}
+      <div className="mb-8">
+        {trendsLoading ? (
+          <div className="bg-white rounded-lg border border-border p-6 text-center">
+            Loading trends...
+          </div>
+        ) : (
+          <AgentTrendChart metrics={metrics} />
+        )}
       </div>
       
       {/* Agent List and Activity */}
