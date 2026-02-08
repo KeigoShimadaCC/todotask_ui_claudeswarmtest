@@ -66,6 +66,13 @@ npm run dev
 
 The dashboard will be available at **http://localhost:3000**
 
+If your agent runs in a different environment (container/VM/other machine), use your host IP
+instead of `localhost` (example: `http://YOUR_IP:3001`). On macOS, find it with:
+
+```bash
+ipconfig getifaddr en1
+```
+
 ### For Agent Developers
 
 Integrate your agent in 3 lines of code:

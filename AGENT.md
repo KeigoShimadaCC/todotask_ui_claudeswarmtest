@@ -6,6 +6,13 @@ This project uses an Agent Activity Dashboard to monitor all AI agents working o
 
 ### 1. Register Yourself
 
+If your agent runs in a different environment (container/VM/other machine), use your host IP
+instead of `localhost` (example: `http://YOUR_IP:3001`). Find it on macOS with:
+
+```bash
+ipconfig getifaddr en1
+```
+
 When you start working, register with the dashboard:
 
 **Using curl:**
@@ -22,7 +29,7 @@ Save the returned `agentId` and `apiKey` - you'll need these.
 ```typescript
 import { AgentReporter } from './sdk/agent-reporter';
 
-const reporter = new AgentReporter();
+const reporter = new AgentReporter('http://localhost:3000');
 await reporter.register({
   name: 'MyAgent',
   type: 'code'

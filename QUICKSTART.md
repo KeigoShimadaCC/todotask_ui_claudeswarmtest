@@ -107,6 +107,8 @@ Open your browser and navigate to:
 
 **http://localhost:3000**
 
+If port 3000 is busy, Next.js will use 3001 (or another port) and print the URL in the terminal.
+
 You should see the Agent Activity Dashboard with an empty state (no agents yet).
 
 ---
@@ -114,6 +116,13 @@ You should see the Agent Activity Dashboard with an empty state (no agents yet).
 ## Connecting Your First Agent
 
 Now let's connect a test agent to verify everything works!
+
+If your agent runs in a different environment (container/VM/other machine), use your host IP
+instead of `localhost` (example: `http://YOUR_IP:3001`). On macOS, find it with:
+
+```bash
+ipconfig getifaddr en1
+```
 
 ### Step 8: Run the Example Agent
 
