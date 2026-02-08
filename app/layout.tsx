@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
+import { Providers } from './providers/Providers';
 
 export const metadata: Metadata = {
-  title: 'TODO Tracker Dashboard',
-  description: 'Track and manage technical debt through TODO comments',
+  title: 'Agent Activity Dashboard',
+  description: 'Real-time monitoring dashboard for AI agents working on tasks',
 };
 
 export default function RootLayout({
@@ -16,9 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-surface min-h-screen">
-        <Header />
-        <Navigation />
-        {children}
+        <Providers>
+          <Header />
+          <Navigation />
+          {children}
+        </Providers>
       </body>
     </html>
   );

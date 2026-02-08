@@ -1,0 +1,48 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Agent {
+  id            String   @id @default(cuid())
+  name          String
+  type          String
+  status        String   @default("idle")
+  currentTask   String?
+  progress      Int      @default(0)
+  startedAt     DateTime @default(now())
+  lastHeartbeat DateTime @default(now())
+  apiKey        String   @unique
+  tasks         Task[]
+  logs          ActivityLog[]
+  
+  @@index([status])
+  @@index([lastHeartbeat])
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  agentId     String
+  agent       Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  description String
+  status      String
+  priority    String   @default("medium")
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+  
+  @@index([agentId, status])
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  agentId   String
+  agent     Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  type      String
+  message   String
+  timestamp DateTime @default(now())
+  
+  @@index([agentId, timestamp])
+}
