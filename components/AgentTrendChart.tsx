@@ -6,7 +6,7 @@ interface AgentMetric {
   id: string;
   timestamp: string;
   totalAgents: number;
-  activeAgents: number;
+  workingAgents: number;
   idleAgents: number;
   blockedAgents: number;
   completedAgents: number;
@@ -34,7 +34,7 @@ export default function AgentTrendChart({ metrics }: AgentTrendChartProps) {
     timestamp: new Date(metric.timestamp).getTime(),
     date: metric.timestamp,
     Total: metric.totalAgents,
-    Active: metric.activeAgents,
+    Active: metric.workingAgents,
     Idle: metric.idleAgents,
     Blocked: metric.blockedAgents,
     Completed: metric.completedAgents,

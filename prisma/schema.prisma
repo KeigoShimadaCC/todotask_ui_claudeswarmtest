@@ -51,7 +51,7 @@ model AgentMetrics {
   id           String   @id @default(cuid())
   timestamp    DateTime @default(now())
   totalAgents  Int
-  activeAgents Int
+  workingAgents Int
   idleAgents   Int
   blockedAgents Int
   completedAgents Int

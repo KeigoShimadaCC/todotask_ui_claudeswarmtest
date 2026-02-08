@@ -51,7 +51,7 @@ export async function POST() {
     
     const stats = {
       totalAgents: agents.length,
-      activeAgents: agents.filter(a => a.status === 'working').length,
+      workingAgents: agents.filter(a => a.status === 'working').length,
       idleAgents: agents.filter(a => a.status === 'idle').length,
       blockedAgents: agents.filter(a => a.status === 'blocked').length,
       completedAgents: agents.filter(a => a.status === 'completed').length,

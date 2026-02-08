@@ -4,7 +4,7 @@ interface AgentMetric {
   id: string;
   timestamp: string;
   totalAgents: number;
-  activeAgents: number;
+  workingAgents: number;
   idleAgents: number;
   blockedAgents: number;
   completedAgents: number;

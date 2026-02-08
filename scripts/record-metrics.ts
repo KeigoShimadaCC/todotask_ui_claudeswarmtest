@@ -39,7 +39,7 @@ async function recordMetrics() {
     
     const stats = {
       totalAgents: agents.length,
-      activeAgents: agents.filter(a => a.status === 'working').length,
+      workingAgents: agents.filter(a => a.status === 'working').length,
       idleAgents: agents.filter(a => a.status === 'idle').length,
       blockedAgents: agents.filter(a => a.status === 'blocked').length,
       completedAgents: agents.filter(a => a.status === 'completed').length,
@@ -48,7 +48,7 @@ async function recordMetrics() {
     
     console.log('   Current statistics:');
     console.log(`   - Total: ${stats.totalAgents}`);
-    console.log(`   - Active: ${stats.activeAgents}`);
+    console.log(`   - Active (Working): ${stats.workingAgents}`);
     console.log(`   - Idle: ${stats.idleAgents}`);
     console.log(`   - Blocked: ${stats.blockedAgents}`);
     console.log(`   - Completed: ${stats.completedAgents}`);
