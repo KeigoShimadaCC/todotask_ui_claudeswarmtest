@@ -1,89 +1,114 @@
-# TODO Tracker Dashboard
+# Agent Activity Dashboard
 
-A modern, professional dashboard for tracking and managing TODO comments in your codebase.
+Real-time monitoring dashboard for AI agents working on tasks.
 
 ## Features
 
-- **Dashboard View**: High-level metrics and insights at a glance
-- **Trend Visualization**: Track TODO count over time with interactive charts
-- **Critical TODOs**: Quickly identify and address high-priority items
-- **Hotspot Analysis**: Find files with the most tech debt
-- **Activity Feed**: Monitor recent TODO additions and resolutions
+- 📊 Real-time agent status monitoring
+- 📈 Activity trends and metrics
+- 🔔 Live activity feed
+- 🎯 Progress tracking per agent
+- 🔐 Secure API key authentication
+
+## Quick Start
+
+### Installation
+
+```bash
+npm install
+npx prisma migrate dev
+npm run dev
+```
+
+Dashboard will be available at http://localhost:3000
+
+### For Agents
+
+See [AGENT.md](AGENT.md) for complete instructions on how to report your activities.
+
+Quick example:
+
+```typescript
+import { AgentReporter } from './sdk/agent-reporter';
+
+const reporter = new AgentReporter();
+await reporter.register({ name: 'MyAgent', type: 'code' });
+await reporter.updateTask('Building feature', 50);
+await reporter.complete();
+```
+
+## API Endpoints
+
+- `POST /api/agents/register` - Register new agent
+- `POST /api/agents/:id/heartbeat` - Update status
+- `GET /api/agents` - List all agents
+- `POST /api/agents/:id/tasks` - Create task
 
 ## Tech Stack
 
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
+- **Database**: Prisma + SQLite
 - **Styling**: Tailwind CSS
 - **Charts**: Recharts
+- **State**: React Query
 - **Icons**: Lucide React
-- **State Management**: React Query (ready to integrate)
 
-## Getting Started
+## Development
 
-1. Install dependencies:
 ```bash
+# Install dependencies
 npm install
-```
 
-2. Run the development server:
-```bash
+# Run database migrations
+npx prisma migrate dev
+
+# Start development server
 npm run dev
+
+# View database
+npx prisma studio
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser
+## Configuration
+
+Environment variables (create `.env`):
+
+```
+DATABASE_URL="file:./prisma/dev.db"
+```
 
 ## Project Structure
 
 ```
-dashboard/
 ├── app/                    # Next.js app directory
-│   ├── layout.tsx         # Root layout with header and nav
-│   ├── page.tsx           # Dashboard page
-│   └── globals.css        # Global styles
+│   ├── api/               # API routes
+│   │   └── agents/       # Agent endpoints
+│   ├── providers/        # React context providers
+│   ├── layout.tsx        # Root layout
+│   └── page.tsx          # Dashboard page
 ├── components/            # React components
-│   ├── Header.tsx         # Top header with search and settings
-│   ├── Navigation.tsx     # Main navigation tabs
-│   ├── MetricCard.tsx     # Metric display card
-│   ├── TrendChart.tsx     # Line chart for trends
-│   ├── CriticalTodosList.tsx  # Critical items list
-│   ├── HotspotsPanel.tsx      # File hotspots
-│   └── ActivityFeed.tsx       # Recent activity
-├── lib/                   # Utilities and data
-│   └── mockData.ts        # Mock data for development
-└── types/                 # TypeScript type definitions
-    └── index.ts           # Shared types
+│   ├── AgentList.tsx     # Agent status list
+│   └── ActivityFeed.tsx  # Activity feed
+├── hooks/                # Custom React hooks
+│   └── useAgents.ts      # Agent data fetching
+├── sdk/                  # Agent SDK
+│   └── agent-reporter.ts # Reporter class
+├── types/                # TypeScript types
+│   └── agent.ts          # Agent types
+├── prisma/               # Database
+│   └── schema.prisma     # Database schema
+└── scripts/              # Utility scripts
+    └── test-agent.ts     # Test agent script
 ```
 
-## Current Status
+## Testing
 
-✅ **Completed:**
-- Project setup with Next.js 14 + TypeScript
-- Tailwind CSS configuration with design system colors
-- All main dashboard components
-- Mock data for development
-- Responsive layout
-- Professional UI matching design spec
+Run test agents:
 
-🔄 **Next Steps (Backend Integration):**
-- Connect to real TODO tracker API
-- Add React Query for data fetching
-- Implement real-time updates
-- Add loading states and error handling
-
-## Design System
-
-### Colors
-- **Critical**: `#D32F2F` (red)
-- **High Priority**: `#F57C00` (orange)
-- **Medium**: `#FBC02D` (yellow)
-- **Low**: `#757575` (gray)
-- **Success**: `#388E3C` (green)
-- **Info**: `#1976D2` (blue)
-
-### Typography
-- **Font Family**: System fonts (-apple-system, BlinkMacSystemFont, etc.)
-- **Monospace**: SF Mono, Monaco, Consolas
+```bash
+npx ts-node scripts/test-agent.ts
+```
 
 ## License
 
