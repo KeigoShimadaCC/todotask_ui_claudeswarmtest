@@ -40,7 +40,7 @@ A comprehensive monitoring and analytics platform designed to track, visualize, 
 ### Prerequisites
 
 Before you begin, ensure you have the following installed:
-- **Node.js** (v18 or higher)
+- **Node.js** (v18 or v20 LTS recommended)
 - **npm** or **yarn**
 - **Git**
 
@@ -53,6 +53,9 @@ cd todotask_ui_claudeswarmtest
 
 # Install dependencies
 npm install
+
+# Generate Prisma client (required)
+npx prisma generate
 
 # Set up the database
 npx prisma migrate dev
@@ -260,6 +263,9 @@ Create a new task for an agent.
 # Install dependencies
 npm install
 
+# Generate Prisma client
+npx prisma generate
+
 # Run database migrations
 npx prisma migrate dev
 
@@ -350,6 +356,9 @@ npx ts-node examples/agent-example.ts
 
 # Run multiple test agents in parallel
 npx ts-node scripts/test-agent.ts
+
+# If your dev server is not on 3000
+PORT=3001 npx ts-node scripts/test-agent.ts
 ```
 
 ---

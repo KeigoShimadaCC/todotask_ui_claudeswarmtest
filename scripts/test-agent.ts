@@ -1,7 +1,9 @@
-import { AgentReporter } from '../sdk/agent-reporter';
+import { AgentReporter } from '../sdk/agent-reporter.ts';
 
 async function runTestAgent(name: string, duration: number = 10000) {
-  const reporter = new AgentReporter('http://localhost:3000');
+  const port = process.env.PORT || process.env.DASHBOARD_PORT || '3000';
+  const dashboardUrl = process.env.DASHBOARD_URL || `http://localhost:${port}`;
+  const reporter = new AgentReporter(dashboardUrl);
   
   console.log(`Starting test agent: ${name}`);
   

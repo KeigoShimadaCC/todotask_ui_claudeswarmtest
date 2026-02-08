@@ -20,14 +20,14 @@ Get your Agent Activity Dashboard up and running in 5 minutes!
 
 Before you begin, make sure you have:
 
-✅ **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)  
+✅ **Node.js** (v18 or v20 LTS recommended) - [Download here](https://nodejs.org/)  
 ✅ **npm** (comes with Node.js) or **yarn**  
 ✅ **Git** - [Download here](https://git-scm.com/)
 
 **Verify your installation:**
 
 ```bash
-node --version   # Should show v18.0.0 or higher
+node --version   # Should show v18.x or v20.x
 npm --version    # Should show 8.0.0 or higher
 git --version    # Should show 2.0.0 or higher
 ```
@@ -55,7 +55,13 @@ This will install all required packages (~2-3 minutes).
 
 ## First Time Setup
 
-### Step 3: Initialize the Database
+### Step 3: Generate Prisma Client
+
+```bash
+npx prisma generate
+```
+
+### Step 4: Initialize the Database
 
 ```bash
 npx prisma migrate dev
@@ -69,7 +75,7 @@ This creates the SQLite database and applies all migrations.
 ✔ Your database is now in sync with your schema
 ```
 
-### Step 4: Create Environment File (Optional)
+### Step 5: Create Environment File (Optional)
 
 Create a `.env` file in the root directory if you need custom configuration:
 
@@ -83,7 +89,7 @@ PORT=3000
 
 ## Running the Dashboard
 
-### Step 5: Start the Development Server
+### Step 6: Start the Development Server
 
 ```bash
 npm run dev
@@ -95,7 +101,7 @@ npm run dev
 Local: http://localhost:3000
 ```
 
-### Step 6: Open the Dashboard
+### Step 7: Open the Dashboard
 
 Open your browser and navigate to:
 
@@ -109,7 +115,7 @@ You should see the Agent Activity Dashboard with an empty state (no agents yet).
 
 Now let's connect a test agent to verify everything works!
 
-### Step 7: Run the Example Agent
+### Step 8: Run the Example Agent
 
 Open a **new terminal** (keep the dev server running) and run:
 
@@ -124,7 +130,7 @@ Agent registered: ExampleCodeAgent (agent_abc123)
 Agent work completed!
 ```
 
-### Step 8: Watch the Dashboard
+### Step 9: Watch the Dashboard
 
 Go back to your browser at http://localhost:3000 and you'll see:
 
@@ -145,6 +151,12 @@ Run multiple agents simultaneously:
 
 ```bash
 npx ts-node scripts/test-agent.ts
+```
+
+If your dev server is on a different port (e.g., 3001):
+
+```bash
+PORT=3001 npx ts-node scripts/test-agent.ts
 ```
 
 This will launch 3 test agents working in parallel. Watch them all on the dashboard!
