@@ -1,80 +1,81 @@
+'use client';
+
+import { useAgents } from '@/hooks/useAgents';
 import MetricCard from '@/components/MetricCard';
-import TrendChart from '@/components/TrendChart';
-import CriticalTodosList from '@/components/CriticalTodosList';
-import HotspotsPanel from '@/components/HotspotsPanel';
-import ActivityFeed from '@/components/ActivityFeed';
-import {
-  mockMetrics,
-  mockTrendData,
-  mockTodos,
-  mockHotspots,
-  mockActivities,
-} from '@/lib/mockData';
+import { AgentList } from '@/components/AgentList';
+import { ActivityFeed } from '@/components/ActivityFeedAgent';
 
 export default function DashboardPage() {
+  const { data, isLoading, error } = useAgents(5000); // Poll every 5s
+  
+  if (isLoading) {
+    return (
+      <main className="container mx-auto px-6 py-8">
+        <div className="text-center py-12">Loading agents...</div>
+      </main>
+    );
+  }
+  
+  if (error) {
+    return (
+      <main className="container mx-auto px-6 py-8">
+        <div className="p-8 text-red-500">Error loading agents: {error.message}</div>
+      </main>
+    );
+  }
+  
+  const { agents = [], stats } = data || {};
+  
   return (
     <main className="container mx-auto px-6 py-8">
-      {/* Date Range Selector (positioned top right in grid) */}
       <div className="mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-          {/* Metric Cards */}
-          <MetricCard
-            title="Total TODOs"
-            value={mockMetrics.total_todos}
-            change={mockMetrics.total_todos_change}
-            changePercent={mockMetrics.total_todos_change_percent}
-            changeLabel="vs last week"
-          />
-          <MetricCard
-            title="Critical"
-            value={mockMetrics.critical_count}
-            change={mockMetrics.critical_change}
-            changePercent={mockMetrics.critical_change_percent}
-            changeLabel="vs last week"
-            valueColor={mockMetrics.critical_count > 0 ? 'text-critical' : 'text-success'}
-          />
-          <MetricCard
-            title="Average Age"
-            value={`${mockMetrics.average_age_days} days`}
-            change={mockMetrics.average_age_change}
-            changePercent={0}
-            changeLabel="vs last week"
-          />
-          <MetricCard
-            title="Resolved"
-            value={mockMetrics.resolved_this_week}
-            change={mockMetrics.resolved_change}
-            changePercent={mockMetrics.resolved_change_percent}
-            changeLabel="this week"
-            valueColor="text-success"
-          />
+        <h1 className="text-3xl font-bold mb-8">Agent Activity Dashboard</h1>
+      </div>
 
-          {/* Date Range Selector */}
-          <div className="flex items-center justify-end">
-            <select className="px-4 py-3 border border-border rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-info/20 focus:border-info">
-              <option>Last 7 days</option>
-              <option selected>Last 30 days</option>
-              <option>Last 90 days</option>
-              <option>This sprint</option>
-              <option>Custom range</option>
-            </select>
-          </div>
+      {/* Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <MetricCard
+          title="Total Agents"
+          value={stats?.total || 0}
+          change={0}
+          changePercent={0}
+          changeLabel="registered"
+        />
+        <MetricCard
+          title="Active Now"
+          value={stats?.active || 0}
+          change={0}
+          changePercent={0}
+          changeLabel="working"
+          valueColor="text-blue-600"
+        />
+        <MetricCard
+          title="Blocked"
+          value={stats?.blocked || 0}
+          change={0}
+          changePercent={0}
+          changeLabel="waiting"
+          valueColor={stats?.blocked && stats.blocked > 0 ? 'text-yellow-600' : 'text-gray-600'}
+        />
+        <MetricCard
+          title="Completed"
+          value={stats?.completed || 0}
+          change={0}
+          changePercent={0}
+          changeLabel="finished"
+          valueColor="text-green-600"
+        />
+      </div>
+      
+      {/* Agent List and Activity */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <AgentList agents={agents} />
+        </div>
+        <div>
+          <ActivityFeed agents={agents} />
         </div>
       </div>
-
-      {/* Trend Chart */}
-      <div className="mb-6">
-        <TrendChart data={mockTrendData} />
-      </div>
-
-      {/* Critical TODOs and Hotspots */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <CriticalTodosList todos={mockTodos} />
-        <HotspotsPanel hotspots={mockHotspots} />
-      </div>
-
-      {/* Recent Activity */}
-      <ActivityFeed activities={mockActivities} />
     </main>
   );
 }
